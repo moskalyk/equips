@@ -120,4 +120,22 @@ contract EquipsRegistry {
             emit Equip(msg.sender, equips[i]);
         }
     }
+
+    function equipWithOwnership(address[] memory token_addresses, uint[] memory token_ids, bytes32[] memory equips, uint salt) public {
+        require(token_addresses.length == token_ids.length, "Mismatch");
+        
+        for(uint i = 0; i < token_ids.length; i++){
+            
+            require(IERC721(token_addresses[i]).ownerOf(token_ids[i]) == msg.sender, "Not Owner");
+
+            require (
+                keccak256(abi.encode(concatenate(token_addresses[i], token_ids[i], salt, i)))
+                ==
+                keccak256(abi.encode(equips[i])),
+                "Mismatch"
+            );
+
+            emit Equip(msg.sender, equips[i]);
+        }
+    }
 }
