@@ -1,2 +1,3 @@
 go-indexer/.env
 client/node_modules
+go-index/test-benchmark/node_modules
